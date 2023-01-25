@@ -11,8 +11,8 @@ export const keyboardClickFlow: Middleware = ({ getState, dispatch }: Middleware
     next(action)
     if (action.type === keyboardClicked.type) {
         //checks the type of the entered key
-        //case latter -> if game.ts is in progress -> dispatch incomingGuess
-        //case backspace || enter-> if game.ts is in progress -> dispatch closeModal
+        //case latter -> if game is in progress -> dispatch incomingGuess
+        //case backspace || enter-> if game is in progress -> dispatch closeModal
         const enteredKey = action.payload
         const state = getState() as RootState
 

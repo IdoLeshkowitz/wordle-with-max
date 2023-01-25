@@ -17,7 +17,7 @@ export const store = configureStore({
     middleware: [
         ...keyboardMiddleware,
         ...guessesMiddleware,
-        ...apiMiddleware
+        // ...apiMiddleware
     ]
 });
 

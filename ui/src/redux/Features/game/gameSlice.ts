@@ -11,7 +11,7 @@ export interface GameState {
         numberOfGuessesInRow: number;
     };
     status: 'IN_PROGRESS' | 'ENDED' | 'PENDING' | 'ERROR';
-    sessionId: string;
+    sessionID: string;
 }
 export const initialState: GameState = {
     settings: {
@@ -19,7 +19,7 @@ export const initialState: GameState = {
         numberOfGuessesInRow: 5,
     },
     status: 'IN_PROGRESS',
-    sessionId: '0',
+    sessionID: '0',
 };
 export const gameSlice = createSlice({
     initialState,
