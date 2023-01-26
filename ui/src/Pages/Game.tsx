@@ -1,14 +1,17 @@
 import {useAppDispatch, useAppSelector} from '../redux/hooks'
-import { useEffect } from 'react'
-import { keyboardClicked } from '../redux/Features/keyboard/keyboardActions'
+import React, {useEffect} from 'react'
+import {keyboardClicked} from '../redux/Features/keyboard/keyboardActions'
 import Board from "../components /Board";
 import {RootState} from "../redux/store";
+import Keyboard from "../components /Keyboard";
 
-const getNumberOfTiles = (state :RootState) => {
+const getNumberOfTiles = (state: RootState) => {
     return state.game.settings.numberOfRows * state.game.settings.numberOfGuessesInRow
 }
-const getAllGuesses = (state :RootState) => {
-    return [...state.guesses.evaluatedGuesses,...state.guesses.nonEvaluatedGuesses]
+export const getAllGuesses = (state: RootState) => {
+    const result = [...state.guesses.evaluatedGuesses, ...state.guesses.nonEvaluatedGuesses]
+    console.log(result )
+    return result
 }
 const Game = () => {
     const dispatch = useAppDispatch()
@@ -22,6 +25,7 @@ const Game = () => {
         <div className="game_page">
             <div className="game_page-main">
                 <Board guesses={getAllGuesses(state)} numberOfTiles={getNumberOfTiles(state)}/>
+                <Keyboard/>
             </div>
         </div>
 
