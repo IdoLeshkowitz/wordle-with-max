@@ -1,15 +1,31 @@
-import { useAppDispatch } from '../redux/hooks'
+import {useAppDispatch, useAppSelector} from '../redux/hooks'
 import { useEffect } from 'react'
 import { keyboardClicked } from '../redux/Features/keyboard/keyboardActions'
+import Board from "../components /Board";
+import {RootState} from "../redux/store";
 
+const getNumberOfTiles = (state :RootState) => {
+    return state.game.settings.numberOfRows * state.game.settings.numberOfGuessesInRow
+}
+const getAllGuesses = (state :RootState) => {
+    return [...state.guesses.evaluatedGuesses,...state.guesses.nonEvaluatedGuesses]
+}
 const Game = () => {
     const dispatch = useAppDispatch()
+    const state = useAppSelector((state) => state)
     useEffect(() => {
         window.addEventListener('keyup', (e) => {
             dispatch(keyboardClicked(e.key.toUpperCase()))
         })
     }, [])
-    return <h1>רן אלבז המלך🇷🇺</h1>
+    return (
+        <div className="game_page">
+            <div className="game_page-main">
+                <Board guesses={getAllGuesses(state)} numberOfTiles={getNumberOfTiles(state)}/>
+            </div>
+        </div>
+
+    )
 }
 
 export default Game
