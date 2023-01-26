@@ -2,6 +2,7 @@ module.exports = {
     env: {
         browser: true,
         es2021: true,
+        jest: true,
     },
     extends: ['plugin:react/recommended', 'eslint:recommended'],
     overrides: [
@@ -13,8 +14,9 @@ module.exports = {
         ecmaVersion: 'latest',
         sourceType: 'module',
     },
-    plugins: ['react'],
+    plugins: ['react','jest'],
     rules: {
         semicolon: 'off',
     },
+    parser: '@typescript-eslint/parser',
 };
