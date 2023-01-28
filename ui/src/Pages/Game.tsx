@@ -24,7 +24,7 @@ const Game = () => {
     return (
         <div className="game_page">
             <div className="game_page-main">
-                <Board guesses={getAllGuesses(state)} numberOfTiles={getNumberOfTiles(state)}/>
+                {/*<Board guesses={getAllGuesses(state)} numberOfTiles={getNumberOfTiles(state)}/>*/}
                 <Keyboard/>
             </div>
         </div>
