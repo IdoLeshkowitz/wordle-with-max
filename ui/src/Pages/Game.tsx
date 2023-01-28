@@ -1,9 +1,9 @@
 import {useAppDispatch, useAppSelector} from '../redux/hooks'
 import React, {useEffect} from 'react'
 import {keyboardClicked} from '../redux/Features/keyboard/keyboardActions'
-import Board from "../matanhagever/Board";
+import Board from "../components/Board";
 import {RootState} from "../redux/store";
-import Keyboard from "../matanhagever/Keyboard";
+import Keyboard from "../components/Keyboard";
 
 const getNumberOfTiles = (state: RootState) => {
     return state.game.settings.numberOfRows * state.game.settings.numberOfGuessesInRow
