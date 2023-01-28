@@ -14,8 +14,10 @@ const LoginModal = () => {
     }
 
     return (
-        <form onSubmit={handleSubmit}
-              className='d-flex flex-column align-items-center justify-content-center'>
+        <form
+            onSubmit={handleSubmit}
+            onClick={(e)=>{e.stopPropagation()}}
+            className='d-flex flex-column align-items-center justify-content-center modal-container'>
             <input className={'form-control mt-2'} name={'email'} type={'text'}
                    placeholder={'Enter your email'}/>
             <input className={'form-control mt-2'} name={'password'} type={'text'}

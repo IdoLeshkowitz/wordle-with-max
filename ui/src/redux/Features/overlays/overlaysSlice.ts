@@ -9,23 +9,25 @@ enum Toasts{
     GAME_ENDED_WITH_WIN = 'congratulations, you won!',
     GAME_ENDED_WITH_LOSS = 'you lost, better luck next time',
 }
-
 export interface overlaysState {
     activeModal: ModalType | null;
     spinner: boolean;
     toasts: Toasts[]
 }
-export const initialOverlaysState: overlaysState = {
+const overlaysInitialState: overlaysState = {
     activeModal: null,
     spinner: false,
     toasts: [],
 };
-const overlaysSlice = createSlice({
-    initialState: initialOverlaysState,
+export const overlaysSlice = createSlice({
+    initialState: overlaysInitialState,
     name: 'overlays',
     reducers: {
-        setModal(state, action : PayloadAction<ModalType>) {
-            //todo
+        closeModal(state) {
+            state.activeModal = null;
+        },
+        openModal (state, action: PayloadAction<ModalType>) {
+            state.activeModal = action.payload;
         },
         addToast(state, action: PayloadAction<Toasts>) {
             //todo
