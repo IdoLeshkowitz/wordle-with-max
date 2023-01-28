@@ -6,6 +6,7 @@ export interface ApiRequestPayload {
     body?: any;
     onSuccess: string;
     onError: string;
+    headers?: any;
 }
 
 //EVENT ACTIONS (TRIGGERS)
