@@ -5,7 +5,7 @@ import {Provider} from 'react-redux';
 import {store} from './redux/store';
 import React, {useEffect} from 'react';
 import './styles/index.scss';
-import GoogleConnect from "./components /GoogleConnect";
+import GoogleConnect from "./matanhagever/GoogleConnect";
 import {GoogleOAuthProvider} from "@react-oauth/google";
 
 const GOOGLE_CLIENT_ID = '1053600571463-0bq8ik99to3hlq78e8ao7rdkcasmo3qn.apps.googleusercontent.com';

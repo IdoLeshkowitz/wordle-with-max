@@ -6,6 +6,7 @@ import guessesReducer from './Features/guesses/guessesSlice';
 import { keyboardMiddleware } from './Features/keyboard/keyboardMiddleware';
 import { guessesMiddleware }  from './Features/guesses/guessesMiddleware';
 import apiMiddleware from './Features/api/apiMiddleware';
+import userMiddleware from "./Features/user/userMiddleware";
 
 export const store = configureStore({
     reducer: {
@@ -17,7 +18,8 @@ export const store = configureStore({
     middleware: [
         ...keyboardMiddleware,
         ...guessesMiddleware,
-        ...apiMiddleware
+        ...apiMiddleware,
+        ...userMiddleware
     ]
 });
 
