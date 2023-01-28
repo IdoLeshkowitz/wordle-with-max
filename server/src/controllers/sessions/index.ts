@@ -1,7 +1,9 @@
-import { getWordsService } from '../services/words-service'
-import { getSessionService } from '../services/session-service'
+import { getWordsService } from '../../services/words-service'
+import { getSessionService } from '../../services/session-service'
 import { Router } from 'express'
 import bodyParser from 'body-parser'
+import {body} from "express-validator";
+
 
 async function createSession(req, res) {
     const word = await getWordsService().randomWord()

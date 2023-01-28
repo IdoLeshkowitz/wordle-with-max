@@ -1,7 +1,7 @@
 import { isGuess } from './index'
-import { NonEvaluatedGuess } from '../../../commonTypes/NonEvaluatedGuess'
+import { NonEvaluatedGuess } from '../../../../commonTypes/NonEvaluatedGuess'
 import request from 'supertest'
-import  app  from '../app'
+import  app  from '../../app'
 
 describe('isGuess', function() {
     it('should return true if guess is a NonEvaluatedGuess', function() {

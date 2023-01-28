@@ -10,7 +10,6 @@ const getNumberOfTiles = (state: RootState) => {
 }
 export const getAllGuesses = (state: RootState) => {
     const result = [...state.guesses.evaluatedGuesses, ...state.guesses.nonEvaluatedGuesses]
-    console.log(result )
     return result
 }
 const Game = () => {

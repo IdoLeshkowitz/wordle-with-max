@@ -1,8 +1,8 @@
 import { Router } from 'express'
 import bodyParser from 'body-parser'
-import { getSessionService } from '../services/session-service'
-import { NonEvaluatedGuess } from '../../../commonTypes/NonEvaluatedGuess'
-import { Correctness, EvaluatedGuess } from '../../../commonTypes/EvaluatedGuess'
+import { getSessionService } from '../../services/session-service'
+import { NonEvaluatedGuess } from '../../../../commonTypes/NonEvaluatedGuess'
+import { Correctness, EvaluatedGuess } from '../../../../commonTypes/EvaluatedGuess'
 
 async function evaluateGuesses(req, res) {
     const { sessionid } = req.headers
@@ -30,7 +30,6 @@ export function isGuess(guess: NonEvaluatedGuess): guess is NonEvaluatedGuess {
 }
 const validateGuesses = (req, res, next) => {
     const { guesses } = req.body || {}
-    console.log(guesses)
     if (!guesses) {
         res.status(400).send('Guesses are missing')
         return
