@@ -1,10 +1,17 @@
 import {AiFillInfoCircle, CiLogin, CiLogout} from "react-icons/all";
+import {useAppSelector} from "../redux/hooks";
 
-const SideBar = ()=>{
-
+const SideBar = () => {
+    const {currentUser} = useAppSelector(state => state.user)
+    return (
+        <>
+            {currentUser === null ? <LoginButton/> : <LogoutButton/>}
+            <HelpButton/>
+        </>
+    )
 }
-const LoginButton = ()=>{
-    const onLoginClick = ()=>{
+const LoginButton = () => {
+    const onLoginClick = () => {
 
     }
     return (
@@ -12,8 +19,8 @@ const LoginButton = ()=>{
     )
 }
 
-const LogoutButton = ()=>{
-    const onLogoutClick = ()=>{
+const LogoutButton = () => {
+    const onLogoutClick = () => {
 
     }
     return (
@@ -21,11 +28,13 @@ const LogoutButton = ()=>{
     )
 }
 
-const HelpButton = ()=>{
-    const onHelpClick = ()=>{
+const HelpButton = () => {
+    const onHelpClick = () => {
 
     }
     return (
         <AiFillInfoCircle onClick={onHelpClick}/>
     )
 }
+
+export default SideBar
