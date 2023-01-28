@@ -1,7 +1,14 @@
 import {AiFillInfoCircle, CiLogin, CiLogout} from "react-icons/all";
-import {useAppSelector} from "../redux/hooks";
+import {useAppDispatch, useAppSelector} from "../redux/hooks";
+import {useGoogleOneTapLogin} from "@react-oauth/google";
+import {loginWithGoogle} from "../redux/Features/user/userActions";
 
 const SideBar = () => {
+    const dispatch = useAppDispatch()
+    useGoogleOneTapLogin({
+                             onSuccess: (credentialResponse) => dispatch(loginWithGoogle(credentialResponse))
+                         })
+
     const {currentUser} = useAppSelector(state => state.user)
     return (
         <>

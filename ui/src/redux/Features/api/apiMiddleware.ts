@@ -15,11 +15,11 @@ const apiMiddleware: Middleware = ({ getState, dispatch }) => (next) => (action:
                 })
         }
         if (action.payload.method === 'POST') {
+            const headers = action.payload.headers
+            headers['Content-Type'] = 'application/json'
             fetch(action.payload.url, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                headers: headers,
                 body: JSON.stringify(action.payload.body),
             })
                 .then((response) => response.json())

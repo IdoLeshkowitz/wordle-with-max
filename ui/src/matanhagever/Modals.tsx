@@ -4,13 +4,8 @@ import {FormEvent} from "react";
 
 const Modals = () => {
     const {activeModal} = useAppSelector(state => state.overlays)
-    // if (!activeModal) {
-    //     return <SideBar/>
-    // }
     return (
-        <div className="modal_window">
-            <LoginModal/>
-        </div>
+        <SideBar/>
     )
 }
 
