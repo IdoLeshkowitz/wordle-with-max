@@ -1,7 +1,6 @@
 import {useAppDispatch, useAppSelector} from '../redux/hooks'
 import React, {useEffect} from 'react'
 import {keyboardClicked} from '../redux/Features/keyboard/keyboardActions'
-import Board from "../components /Board";
 import {RootState} from "../redux/store";
 import Keyboard from "../components /Keyboard";
 
@@ -10,7 +9,7 @@ const getNumberOfTiles = (state: RootState) => {
 }
 export const getAllGuesses = (state: RootState) => {
     const result = [...state.guesses.evaluatedGuesses, ...state.guesses.nonEvaluatedGuesses]
-    console.log(result )
+    console.log(result)
     return result
 }
 const Game = () => {
