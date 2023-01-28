@@ -4,6 +4,7 @@ import {keyboardClicked} from '../redux/Features/keyboard/keyboardActions'
 import Board from "../components/Board";
 import {RootState} from "../redux/store";
 import Keyboard from "../components/Keyboard";
+import {useGoogleOneTapLogin} from "@react-oauth/google";
 
 const getNumberOfTiles = (state: RootState) => {
     return state.game.settings.numberOfRows * state.game.settings.numberOfGuessesInRow
@@ -13,6 +14,11 @@ export const getAllGuesses = (state: RootState) => {
     return result
 }
 const Game = () => {
+    useGoogleOneTapLogin({
+                             onSuccess: (credentialResponse) => {
+                                 console.log(credentialResponse)
+                             }
+                         })
     const dispatch = useAppDispatch()
     const state = useAppSelector((state) => state)
     useEffect(() => {

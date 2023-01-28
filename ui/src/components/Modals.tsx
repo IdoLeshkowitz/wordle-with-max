@@ -1,28 +1,20 @@
-import {useAppSelector} from "../redux/hooks";
+import {useAppDispatch, useAppSelector} from "../redux/hooks";
 import SideBar from "./SideBar";
-import {FormEvent} from "react";
-import {Form} from "./Form";
+import React, {FormEvent, FormEventHandler} from "react";
+import {ModalType} from "../redux/Features/overlays/overlaysSlice";
+import LoginModal from "./LoginModal";
 
 const Modals = () => {
     const {activeModal} = useAppSelector(state => state.overlays)
-    return (
-        <>
-        <SideBar/>
-        <LoginModal/>
-        </>
-    )
-}
-
-const LoginModal = () => {
-    //no need for the onsubmit event, it's part of the form component
-    const onSubmit = (e: FormEvent) => {
-        e.preventDefault()
-        //todo : check that email and password are valid
+    if (!activeModal) {
+        return null
     }
     return (
-        <div className="modal-container">
-            <Form/>
+        <div className="modal_window">
+            {activeModal=== ModalType.login && <LoginModal/>}
+            {activeModal === ModalType.help && <></>}
         </div>
     )
 }
+
 export default Modals

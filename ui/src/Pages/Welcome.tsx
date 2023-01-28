@@ -5,5 +5,5 @@ import {useEffect} from "react";
 export const Welcome = () => {
     const navigate = useNavigate();
     const {currentUser} = useAppSelector(state => state.user)
-    return <h1>Yo!</h1>;
+    return <h1></h1>;
 };

@@ -52,6 +52,7 @@ const logoutSplit: Middleware = ({dispatch, getState}) => next => (action: Paylo
     next(action);
     if (action.type === logout.type){
         dispatch(clearCurrentUser())
+        localStorage.removeItem("token");
     }
 }
 

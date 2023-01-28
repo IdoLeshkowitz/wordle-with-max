@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-enum ModalType {
-    signIn = 'signIn',
+export enum ModalType {
+    login = 'login',
     help = 'help',
 }
 enum Toasts{
