@@ -5,7 +5,7 @@ export interface LoginPayload {
     email : string
     password : string
 }
-export const login = createAction<LoginPayload>("user/login");
+export const login = createAction<object>("user/login");
 export const loginWithGoogle = createAction<GoogleCredentialResponse>("user/loginWithGoogle");
 export const logout = createAction("user/logout");
 export const loginSuccess = createAction<string>("user/loginSuccess");

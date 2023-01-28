@@ -1,5 +1,5 @@
 import {Middleware, PayloadAction} from "@reduxjs/toolkit";
-import {login, loginError, loginSuccess, loginWithGoogle} from "./userActions";
+import {login, loginError, LoginPayload, loginSuccess, loginWithGoogle} from "./userActions";
 import {GoogleCredentialResponse} from "@react-oauth/google";
 import {apiRequest} from "../api/apiActions";
 
@@ -20,6 +20,15 @@ const loginWithGoogleSplit: Middleware = ({
     }
 }
 
+const loginMW: Middleware = ({dispatch, getState}) => next => (action: PayloadAction<LoginPayload>) => {
+    next(action);
+    if (action.type === login.type) {
+        console.log('login entered')
+        const submitted = action.payload;
+        console.log(submitted)
+    }
+}
+
 const loginSuccessSplit: Middleware = ({dispatch, getState}) => next => (action: PayloadAction<string>) => {
     next(action);
     if (action.type === loginSuccess.type) {
@@ -36,4 +45,4 @@ const loginErrorSplit: Middleware = ({dispatch, getState}) => next => (action: P
     }
 }
 
-export default [loginWithGoogleSplit, loginSuccessSplit, loginErrorSplit];
+export default [loginWithGoogleSplit, loginSuccessSplit, loginErrorSplit, loginMW];
