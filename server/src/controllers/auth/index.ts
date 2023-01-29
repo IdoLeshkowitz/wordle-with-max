@@ -17,7 +17,6 @@ async function login(email, password) {
 }
 
 async function googleLogin(token) {
-    console.log(token)
     try {
         const ticket = await client.verifyIdToken({idToken : token, audience: GOOGLE_CLIENT_ID});
         return ticket.getPayload();

@@ -20,9 +20,6 @@ const SideBar = () => {
 }
 const LoginButton = () => {
     const dispatch = useAppDispatch()
-    useGoogleOneTapLogin({
-                             onSuccess: (credentialResponse) => dispatch(loginWithGoogle(credentialResponse))
-                         })
     const onLoginClick = () => {
         dispatch(openModal(ModalType.login))
     }

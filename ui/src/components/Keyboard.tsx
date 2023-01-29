@@ -1,6 +1,8 @@
 import React, {ReactElement, useEffect} from "react";
 import {AiOutlineEnter} from "react-icons/ai";
 import {BsReverseBackspaceReverse} from "react-icons/all";
+import {useAppDispatch} from "../redux/hooks";
+import {keyboardClicked} from "../redux/Features/keyboard/keyboardActions";
 
 interface VirtualKeyboardButton {
     buttonKey: string,
@@ -44,11 +46,13 @@ const virtualKeyboardRows = [1, 2, 3].map((rowNum) => {
 });
 
 const Key = (props: { letter: string, buttonSize: string, displayed?: ReactElement }) => {
+    const dispatch = useAppDispatch()
     const {letter, buttonSize, displayed} = props;
     return (
         <button
             className={`keyboard-btn`}
             key={letter}
+            onClick={(()=>dispatch(keyboardClicked(letter)))}
         >
             {displayed || letter}
         </button>
@@ -65,16 +69,6 @@ const Keyboard = () => {
     const onKeyboardClick = (key: string) => {
         return key
     };
-    const handleOnKeyUp = (e: KeyboardEvent) => {
-        onKeyboardClick(e.key.toUpperCase())
-    }
-    useEffect(() => {
-        window.addEventListener("keyup", handleOnKeyUp);
-        return () => {
-            window.removeEventListener("keyup", handleOnKeyUp);
-        }
-    }, [onKeyboardClick]);
-
     return (
         <div className="keyboard">
             {virtualKeyboardRows.map((rowButtons, index) =>

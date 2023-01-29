@@ -31,7 +31,7 @@ export function isGuess(guess: NonEvaluatedGuess): guess is NonEvaluatedGuess {
 const validateGuesses = (req, res, next) => {
     const { guesses } = req.body || {}
     if (!guesses) {
-        res.status(400).send('Guesses are missing')
+        res.status(400).send({ message: 'Guesses are missing' })
         return
     }
     if (!guesses.every(isGuess)) {
@@ -45,7 +45,9 @@ const validateSession = async (req, res, next) => {
     try {
         const session = await getSessionService().one(sessionid)
     } catch {
-        res.status(404).send('Session not found')
+        const sessions = await getSessionService().all()
+        console.log('Session not found',req.headers)
+        res.status(404).send(JSON.stringify({ message: 'Session not found' }))
         return
 
     }

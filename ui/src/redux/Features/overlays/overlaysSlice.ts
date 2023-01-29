@@ -3,7 +3,7 @@ export enum ModalType {
     login = 'login',
     help = 'help',
 }
-enum Toasts{
+export enum Toasts{
     CONNECTION_ERROR = 'unable to connect to the server',
     SERVER_ERROR = 'the server encountered an error',
     GAME_ENDED_WITH_WIN = 'congratulations, you won!',
@@ -30,7 +30,7 @@ export const overlaysSlice = createSlice({
             state.activeModal = action.payload;
         },
         addToast(state, action: PayloadAction<Toasts>) {
-            //todo
+            state.toasts.push(action.payload);
         },
         removeToast(state, action: PayloadAction<Toasts>) {
             //todo

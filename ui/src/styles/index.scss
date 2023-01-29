@@ -36,7 +36,7 @@ button {border: none;cursor: pointer;}
   &-main {align-items: center;align-self: center;display: flex;flex-direction: column;height: 100%; justify-content: center;position: relative;width: min(100%, 500px);
     & .keyboard {align-self: stretch;--keyboard-btn-gap: calc(var(--keyboard-btn-height) / 11); --keyboard-btn-height: 4rem; --keyboard-btn-radius: calc(var(--keyboard-btn-height) / 5); display: flex;flex-basis: 300px; flex-direction: column;--keyboard-font-size: calc(1rem * 1.3);font-size: var(--keyboard-font-size);row-gap: var(--keyboard-btn-gap);
       &-row {column-gap: var(--keyboard-btn-gap);display: flex;justify-content: center;}
-      &-btn {background-color: transparent;border-radius: var(--keyboard-btn-radius);box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;cursor: pointer;flex-basis: var(--keyboard-btn-height);font-size: inherit;height: var(--keyboard-btn-height);
+      &-btn {background-color: transparent;border-radius: var(--keyboard-btn-radius);box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;cursor: grab;flex-basis: var(--keyboard-btn-height);font-size: inherit;height: var(--keyboard-btn-height);
         &:active {background-color: var(--color-grey-1); box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;transition: background-color 0.5s ease-in-out;}
         &.wide {flex-basis: calc(var(--keyboard-btn-height) * 1.5);}
         &.yellow {background-color: var(--color-yellow-1);}
@@ -100,11 +100,33 @@ button {border: none;cursor: pointer;}
 .hidden {display: none;}
 
 //---------!TOASTS!---------//
-.toasts { align-items: center; display: flex;flex-direction: column;position: absolute; top: 0;width: 100%;z-index: 1000;
-  & .toast {align-items: center; animation: ease-in 10s; background-color: black; border-radius: 0.5rem; color: white; display: flex; font-family: var(--font-family-barlow); font-size: 1.5rem; justify-content: center; margin: 1rem;padding: 1rem;
+.toasts {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height : 100%;
+  z-index: 100;
+  & .toast {
+    position: absolute;
+    z-index: 1000;
+    align-items: center;
+    animation: ease-in 10s;
+    background-color: black;
+    border-radius: 0.5rem;
+    color: white;
+    display: flex;
+    font-family: var(--font-family-barlow);
+    font-size: 1.5rem;
+    justify-content: center;
+    margin: 1rem;
+    padding: 1rem;
+    height : 100px;
+    width : 200px;
   }
 }
-
 //---------!SIDEBAR!--------//
 .sidebar {align-items: center;display: flex;height: 50px;justify-content: space-evenly;position: fixed;right: 0;top: 0;width: 150px;z-index: 1000;
   &-item {background-color: transparent; border: .1px solid var(--color-grey-1);border-radius: 50%;cursor: pointer;height: 3rem;width: 3rem;

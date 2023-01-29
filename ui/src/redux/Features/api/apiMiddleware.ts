@@ -15,9 +15,8 @@ const apiMiddleware: Middleware = ({ getState, dispatch }) => (next) => (action:
                 })
         }
         if (action.payload.method === 'POST') {
-            const headers = action.payload.headers
+            const headers = action.payload.headers || {}
             headers['Content-Type'] = 'application/json'
-            console.log(headers)
             fetch(action.payload.url, {
                 method: 'POST',
                 headers: headers,
@@ -28,6 +27,7 @@ const apiMiddleware: Middleware = ({ getState, dispatch }) => (next) => (action:
                     dispatch({ type: action.payload.onSuccess, payload: data })
                 })
                 .catch((error) => {
+                    console.log(error)
                     dispatch({ type: action.payload.onError, payload: error })
                 })
         }

@@ -32,8 +32,10 @@ export const gameSlice = createSlice({
         },
         restoreStatus(state) {
             state.status = statusMemo.pop() || state.status;
+        },
+        setSessionId(state, action: PayloadAction<string>) {
+            state.sessionId = action.payload;
         }
     },
 });
 export default gameSlice.reducer;
-export const { setStatus,restoreStatus } = gameSlice.actions;
