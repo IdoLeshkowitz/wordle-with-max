@@ -5,6 +5,7 @@ import LoginModal from "./modals/LoginModal";
 import {closeModal} from "../redux/Features/overlays/overlaysActions";
 import SignupModal from "./modals/SignupModal";
 import EndModal from "./modals/EndModal";
+import HelpModal from "./modals/HelpModal";
 
 const Modal = () => {
     const dispatch = useAppDispatch()
@@ -18,7 +19,7 @@ const Modal = () => {
     return (
         <div className="modal_window" onClick={onBlur}>
             {activeModal === ModalType.login && <LoginModal/>}
-            {activeModal === ModalType.help && <></>}
+            {activeModal === ModalType.help && <HelpModal></HelpModal>}
             {activeModal === ModalType.signup && <SignupModal></SignupModal>}
             {activeModal === ModalType.gameEnded && <EndModal/>}
         </div>
