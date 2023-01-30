@@ -1,24 +1,34 @@
-import { Middleware, PayloadAction } from '@reduxjs/toolkit'
-import { GameStatus } from '../game/gameSlice'
-import { addNonEvaluatedGuess, clearNonEvaluatedGuesses, evaluateRow, evaluationError, evaluationSuccess, incomingGuess } from './guessesActions'
-import { RootState, store } from '../../store'
-import { setStatus } from '../game/gameSlice'
-import { apiRequest } from '../api/apiActions'
-import { NonEvaluatedGuess } from '../../../../../commonTypes/NonEvaluatedGuess'
-import { EvaluatedGuess } from '../../../../../commonTypes/EvaluatedGuess'
+import {Middleware, PayloadAction} from '@reduxjs/toolkit'
+import {setStatus} from '../game/gameActions'
+import {
+    addEvaluatedGuesses,
+    addNonEvaluatedGuess,
+    clearNonEvaluatedGuesses,
+    evaluateRow,
+    evaluationError,
+    evaluationSuccess,
+    incomingGuess
+} from './guessesActions'
+import {RootState} from '../../store'
+import {apiRequest, ApiRequestPayload, HttpMethod} from '../api/apiActions'
+import {EvaluatedGuess} from '../../../../../commonTypes/EvaluatedGuess'
+import {GameStatus} from "../game/gameSlice";
+import {ApiEndpoints} from "../api/apiEndpoints";
+
 /*
                                                  HELPER FUNCTIONS
 *******************************************************************************************************************
  */
 function isGameEnded(state: RootState): boolean {
-    const { numberOfGuessesInRow, numberOfRows } = state.game.settings
-    const completedRows = state.guesses.evaluatedGuesses.length / numberOfGuessesInRow
+    const {numberOfColumns, numberOfRows} = state.game.settings
+    const completedRows = state.guesses.evaluatedGuesses.length / numberOfColumns
     return completedRows === numberOfRows
 }
+
 export function isRowEnded(state: RootState): boolean {
-    const { numberOfGuessesInRow } = state.game.settings
+    const {numberOfColumns} = state.game.settings
     const completedGuesses = state.guesses.nonEvaluatedGuesses.length
-    return completedGuesses === numberOfGuessesInRow
+    return completedGuesses === numberOfColumns - 1
 }
 
 /*
@@ -38,8 +48,7 @@ export const incomingGuessMap: Middleware = (store) => (next) => (action) => {
         if (isRowEnded(state)) {
             //if no guesses left -> dispatch evaluateRow
             store.dispatch(evaluateRow())
-        }
-        else {
+        } else {
             store.dispatch(addNonEvaluatedGuess(action.payload))
             //else ->dispatch addNonEvaluatedGuess
         }
@@ -49,33 +58,44 @@ export const incomingGuessMap: Middleware = (store) => (next) => (action) => {
 /*
  this middleware intercepts evaluateRow command action,and dispatches a number of actions
  */
-const evaluateRowSplit: Middleware = ({ dispatch,getState }) => (next) => (action) => {
+const evaluateRowSplit: Middleware = ({dispatch, getState}) => (next) => (action) => {
     next(action)
     if (action.type === evaluateRow.type) {
         const state: RootState = getState()
         const {sessionId} = state.game
-        const {nonEvaluatedGuesses : guessesToEvaluate} = state.guesses
+        const {nonEvaluatedGuesses: guessesToEvaluate} = state.guesses
+        const requestPayload: ApiRequestPayload = {
+            method   : HttpMethod.POST,
+            url      : ApiEndpoints.EVALUATE,
+            onSuccess: evaluationSuccess,
+            onError  : evaluationError,
+            headers  :
+                {
+                    'sessionid': sessionId,
+                    'Content-Type': 'application/json'
+                },
+        }
         dispatch(clearNonEvaluatedGuesses())
         dispatch(setStatus(GameStatus.pending))
-        dispatch(apiRequest({method: 'POST', url: `http://localhost3000/evaluate/${sessionId}`, onSuccess: evaluationSuccess.type, onError:evaluationError.type,body: { guesses :guessesToEvaluate }}))
+        dispatch(apiRequest(requestPayload))
     }
 }
 
 /*
  this middleware intercepts evaluationSuccess event action and dispatches appropriate actions
  */
-const evaluationSuccessSplit: Middleware = ({ dispatch, getState }) => (next) => (action : PayloadAction<EvaluatedGuess[]>) => {
+const evaluationSuccessSplit: Middleware = ({dispatch, getState}) => (next) => (action: PayloadAction<EvaluatedGuess[]>) => {
     next(action)
     if (action.type === evaluationSuccess.type) {
         //set evaluated guesses
-        console.log(action.payload)
+        dispatch(addEvaluatedGuesses(action.payload))
     }
 }
 
 /*
     this middleware intercepts evaluationError event action and dispatches appropriate actions
  */
-const evaluationErrorSplit: Middleware = ({ dispatch }) => (next) => (action) => {
+const evaluationErrorSplit: Middleware = ({dispatch}) => (next) => (action) => {
     next(action)
     if (action.type === evaluationError.type) {
         dispatch(setStatus(GameStatus.error))

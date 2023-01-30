@@ -24,6 +24,9 @@ export class SessionService {
         }
         return session
     }
+    async all(): Promise<Session[]> {
+        return sessionsData
+    }
 }
 let sessionService: SessionService;
 export function getSessionService(): SessionService {

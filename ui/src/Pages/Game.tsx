@@ -1,29 +1,27 @@
 import {useAppDispatch, useAppSelector} from '../redux/hooks'
 import React, {useEffect} from 'react'
-import {keyboardClicked} from '../redux/Features/keyboard/keyboardActions'
 import Board from "../components/Board";
-import {RootState} from "../redux/store";
 import Keyboard from "../components/Keyboard";
+import {useGoogleOneTapLogin} from "@react-oauth/google";
+import {startGame} from "../redux/Features/game/gameActions";
+import {loginWithGoogle} from "../redux/Features/user/userActions";
 
-const getNumberOfTiles = (state: RootState) => {
-    return state.game.settings.numberOfRows * state.game.settings.numberOfGuessesInRow
-}
-export const getAllGuesses = (state: RootState) => {
-    const result = [...state.guesses.evaluatedGuesses, ...state.guesses.nonEvaluatedGuesses]
-    return result
-}
 const Game = () => {
     const dispatch = useAppDispatch()
-    const state = useAppSelector((state) => state)
     useEffect(() => {
-        window.addEventListener('keyup', (e) => {
-            dispatch(keyboardClicked(e.key.toUpperCase()))
-        })
+        dispatch(startGame())
     }, [])
+    const state = useAppSelector((state) => state)
+    const {nonEvaluatedGuesses, evaluatedGuesses} = state.guesses
+    const {numberOfRows, numberOfColumns} = state.game.settings
     return (
         <div className="game_page">
+            {/*<Toasts/>*/}
             <div className="game_page-main">
-                <Board guesses={getAllGuesses(state)} numberOfTiles={getNumberOfTiles(state)}/>
+                <Board
+                    guesses={[...evaluatedGuesses, ...nonEvaluatedGuesses]}
+                    numberOfTiles={numberOfRows * numberOfColumns}
+                />
                 <Keyboard/>
             </div>
         </div>

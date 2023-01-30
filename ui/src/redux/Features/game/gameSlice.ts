@@ -5,20 +5,21 @@ export enum GameStatus {
     pending = 'PENDING',
     error = 'ERROR',
 }
+const statusMemo : GameStatus[] = [];
 export interface GameState {
     settings: {
         numberOfRows: number;
-        numberOfGuessesInRow: number;
+        numberOfColumns: number;
     };
-    status: 'IN_PROGRESS' | 'ENDED' | 'PENDING' | 'ERROR';
+    status: GameStatus;
     sessionId: string;
 }
 export const initialState: GameState = {
     settings: {
-        numberOfRows: 5,
-        numberOfGuessesInRow: 5,
+        numberOfRows   : 5,
+        numberOfColumns: 5,
     },
-    status: 'IN_PROGRESS',
+    status: GameStatus.in_progress,
     sessionId: '0',
 };
 export const gameSlice = createSlice({
@@ -26,9 +27,15 @@ export const gameSlice = createSlice({
     name: 'game',
     reducers: {
         setStatus(state, action: PayloadAction<GameStatus>) {
+            statusMemo.push(state.status);
             state.status = action.payload;
         },
+        restoreStatus(state) {
+            state.status = statusMemo.pop() || state.status;
+        },
+        setSessionId(state, action: PayloadAction<string>) {
+            state.sessionId = action.payload;
+        }
     },
 });
 export default gameSlice.reducer;
-export const { setStatus } = gameSlice.actions;

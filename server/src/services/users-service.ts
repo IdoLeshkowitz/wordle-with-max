@@ -1,6 +1,8 @@
 import { User } from "../../../commonTypes/User";
 
-const usersData: User[] = [];
+const usersData: User[] = [
+    {email:'example@gmail.com',lastName:'example',firstName:'example',password:'example'}
+];
 export class UsersService {
     constructor(private readonly users: User[] = usersData) {
     }

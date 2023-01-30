@@ -7,6 +7,8 @@ import { keyboardMiddleware } from './Features/keyboard/keyboardMiddleware';
 import { guessesMiddleware }  from './Features/guesses/guessesMiddleware';
 import apiMiddleware from './Features/api/apiMiddleware';
 import userMiddleware from "./Features/user/userMiddleware";
+import {overlaysMiddleware} from "./Features/overlays/overlaysMiddleware";
+import {gameMiddleware} from "./Features/game/gameMiddleware";
 
 export const store = configureStore({
     reducer: {
@@ -19,7 +21,9 @@ export const store = configureStore({
         ...keyboardMiddleware,
         ...guessesMiddleware,
         ...apiMiddleware,
-        ...userMiddleware
+        ...userMiddleware,
+        ...overlaysMiddleware,
+        ...gameMiddleware,
     ]
 });
 
