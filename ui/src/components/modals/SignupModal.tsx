@@ -5,6 +5,7 @@ import {signUp} from "../../redux/Features/user/userActions";
 import {GameStatus} from "../../redux/Features/game/gameSlice";
 import {Spinner} from "react-bootstrap";
 import {ErrorType} from "../../../../commonTypes/Errors";
+import {logInClicked} from "../../redux/Features/overlays/overlaysActions";
 
 const STRING_REGEX = /$[A-Za-z]+^/i;
 export const EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
@@ -76,7 +77,7 @@ const SignupModal = () => {
             </div>
             <div className="form-group d-sm-grid">
                 <button className={'mt-4 btn btn-outline-secondary btn-sm '} type={'submit'}>Submit</button>
-                <button className='mt-4 btn btn-outline-secondary btn-sm align-self-start '>back to log in</button>
+                <button className='mt-4 btn btn-outline-secondary btn-sm align-self-start ' onClick={()=>dispatch(logInClicked())}>back to log in</button>
             </div>
         </form>
     )
