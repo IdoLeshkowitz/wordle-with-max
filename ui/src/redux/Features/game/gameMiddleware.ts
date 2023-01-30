@@ -23,7 +23,8 @@ const startGameSplit: Middleware = ({dispatch}) => (next) => (action) => {
 const getSessionSuccessSplit: Middleware = ({dispatch}) => (next) => (action) => {
     next(action);
     if (action.type === getSessionSuccess.type) {
-        dispatch(setSessionId(action.payload))
+        const {sessionId} = action.payload
+        dispatch(setSessionId(sessionId))
         dispatch(setStatus(GameStatus.in_progress))
     }
 }

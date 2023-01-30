@@ -7,13 +7,16 @@ export enum HttpMethod {
     PUT = 'PUT',
     DELETE = 'DELETE',
 }
-export interface Headers {
+interface Headers {
     [key: string]: string;
+}
+interface Body {
+    [key: string]: any;
 }
 export interface ApiRequestPayload {
     url: ApiEndpoints;
     method:HttpMethod;
-    body?: Map<string, any>;
+    body?: Body;
     onSuccess: ActionCreator<any>;
     onError: ActionCreator<any>;
     headers?: Headers;

@@ -28,7 +28,7 @@ function isGameEnded(state: RootState): boolean {
 export function isRowEnded(state: RootState): boolean {
     const {numberOfColumns} = state.game.settings
     const completedGuesses = state.guesses.nonEvaluatedGuesses.length
-    return completedGuesses === numberOfColumns - 1
+    return completedGuesses === numberOfColumns
 }
 
 /*
@@ -40,17 +40,14 @@ export function isRowEnded(state: RootState): boolean {
  This middleware intercepts incomingGuess event action.
  Checks if there's any guess left for current row and dispatches appropriate action
  */
-export const incomingGuessMap: Middleware = (store) => (next) => (action) => {
+export const incomingGuessMap: Middleware = ({dispatch, getState}) => (next) => (action) => {
     next(action)
     if (action.type === incomingGuess.type) {
-        const state: RootState = store.getState()
+        dispatch(addNonEvaluatedGuess(action.payload))
         //check if there's any guess left for current row
-        if (isRowEnded(state)) {
+        if (isRowEnded(getState())) {
             //if no guesses left -> dispatch evaluateRow
-            store.dispatch(evaluateRow())
-        } else {
-            store.dispatch(addNonEvaluatedGuess(action.payload))
-            //else ->dispatch addNonEvaluatedGuess
+            dispatch(evaluateRow())
         }
     }
 }
@@ -62,7 +59,6 @@ const evaluateRowSplit: Middleware = ({dispatch, getState}) => (next) => (action
     next(action)
     if (action.type === evaluateRow.type) {
         const state: RootState = getState()
-        const {sessionId} = state.game
         const {nonEvaluatedGuesses: guessesToEvaluate} = state.guesses
         const requestPayload: ApiRequestPayload = {
             method   : HttpMethod.POST,
@@ -71,9 +67,10 @@ const evaluateRowSplit: Middleware = ({dispatch, getState}) => (next) => (action
             onError  : evaluationError,
             headers  :
                 {
-                    'sessionid': sessionId,
+                    'sessionid'   : state.game.sessionId,
                     'Content-Type': 'application/json'
                 },
+            body     : guessesToEvaluate,
         }
         dispatch(clearNonEvaluatedGuesses())
         dispatch(setStatus(GameStatus.pending))
@@ -84,11 +81,15 @@ const evaluateRowSplit: Middleware = ({dispatch, getState}) => (next) => (action
 /*
  this middleware intercepts evaluationSuccess event action and dispatches appropriate actions
  */
-const evaluationSuccessSplit: Middleware = ({dispatch, getState}) => (next) => (action: PayloadAction<EvaluatedGuess[]>) => {
+const evaluationSuccessSplit: Middleware = ({
+                                                dispatch,
+                                                getState
+                                            }) => (next) => (action: PayloadAction<EvaluatedGuess[]>) => {
     next(action)
     if (action.type === evaluationSuccess.type) {
         //set evaluated guesses
         dispatch(addEvaluatedGuesses(action.payload))
+        dispatch(setStatus(GameStatus.in_progress))
     }
 }
 
