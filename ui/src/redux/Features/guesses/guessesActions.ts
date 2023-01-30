@@ -3,7 +3,7 @@ import { createAction } from '@reduxjs/toolkit';
 import { EvaluatedGuess } from '../../../../../commonTypes/EvaluatedGuess';
 
 // DOCUMENT ACTIONS
-export const {clearNonEvaluatedGuesses,addNonEvaluatedGuess,addEvaluatedGuesses} = guessesSlice.actions;
+export const {clearNonEvaluatedGuesses,addNonEvaluatedGuess,addEvaluatedGuesses,clearAllGuesses} = guessesSlice.actions;
 
 
 // EVENT ACTIONS
