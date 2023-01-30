@@ -21,7 +21,7 @@ const apiMiddleware: Middleware = ({
             if (response.status >= 200 && response.status < 300) {
                 dispatch(onSuccess(data))
             } else {
-                // dispatch({type: onError.toString(), payload: data})
+                dispatch({type: onError.toString(), payload: data})
             }
         }).catch((error) => {
             console.log(error)
