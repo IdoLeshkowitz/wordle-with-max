@@ -22,11 +22,12 @@ const LoginModal = () => {
             onSubmit={handleSubmit}
             onClick={(e)=>{e.stopPropagation()}}
             className='d-flex flex-column align-items-center justify-content-center modal-container'>
+            <h1 className="text-light mb-4" >Log-In</h1>
             <input className={'form-control mt-2'} name={'email'} type={'text'}
-                   placeholder={'Enter your email'}/>
+                   placeholder={'Enter your email'} required/>
             <input className={'form-control mt-2'} name={'password'} type={'text'}
-                   placeholder={'Enter your password'}/>
-            <button className={'mt-2 btn btn-outline-secondary'} type={'submit'}>Submit</button>
+                   placeholder={'Enter your password'} required/>
+            <button className={'mt-2 mb-2 border-light btn btn-outline-secondary'} type={'submit'}>Submit</button>
             <GoogleConnect/>
         </form>
     )
