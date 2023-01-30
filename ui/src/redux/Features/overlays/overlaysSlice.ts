@@ -41,5 +41,5 @@ export const overlaysSlice = createSlice({
             state.spinner = action.payload;
         }
     },
-});
+})
 export default overlaysSlice.reducer;

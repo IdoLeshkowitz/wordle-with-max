@@ -6,9 +6,14 @@ const usersData: User[] = [
 export class UsersService {
     constructor(private readonly users: User[] = usersData) {
     }
-    async create(user: User): Promise<User> {
-        usersData.push(user)
-        return user
+    async create(userToBeCreated: User): Promise<User> {
+        //check if userToBeCreated exists
+        const userExists = usersData.find(user => user.email === userToBeCreated.email)
+        if (userExists) {
+            throw new Error('User already exists')
+        }
+        usersData.push(userToBeCreated)
+        return userToBeCreated
     }
     async one(email: string): Promise<User> {
         const user = usersData.find(user => user.email === email)

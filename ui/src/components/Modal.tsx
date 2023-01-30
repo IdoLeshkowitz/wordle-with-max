@@ -9,7 +9,6 @@ import EndModal from "./modals/EndModal";
 const Modal = () => {
     const dispatch = useAppDispatch()
     const {activeModal} = useAppSelector(state => state.overlays)
-    console.log(activeModal)
     if (!activeModal) {
         return null
     }
