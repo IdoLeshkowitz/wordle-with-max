@@ -2,6 +2,7 @@ import { RootState } from '../../store'
 import { Dispatch, Middleware, MiddlewareAPI, PayloadAction } from '@reduxjs/toolkit'
 import { incomingGuess } from '../guesses/guessesActions'
 import { keyboardClicked } from './keyboardActions'
+import {closeModal} from "../overlays/overlaysActions";
 
 export function isLetter(input: string) {
     return /^[A-Z]$/.test(input)
@@ -22,12 +23,14 @@ export const keyboardClickFlow: Middleware = ({ getState, dispatch }: Middleware
                 dispatch(incomingGuess(enteredKey))
             }
         }
-
-        /*******************    CASE I: KEY IS BACKSPACE    *******************/
-        //todo
-
+        /*******************    CASE I: KEY IS ESCAPE    *******************/
+        if(enteredKey.toUpperCase() === 'ESCAPE'){
+                dispatch(closeModal())
+        }
         /*******************    CASE I: KEY IS ENTER    *******************/
-        //todo
+        if(enteredKey.toUpperCase() === 'ENTER'){
+                dispatch(closeModal())
+        }
     }
 }
 
