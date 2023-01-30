@@ -5,6 +5,7 @@ import {apiRequest, ApiRequestPayload, HttpMethod} from "../api/apiActions";
 import {addToast, openModal} from "../overlays/overlaysActions";
 import {ModalType, Toasts} from "../overlays/overlaysSlice";
 import {ApiEndpoints} from "../api/apiEndpoints";
+import {clearAllGuesses} from "../guesses/guessesActions";
 
 const startGameSplit: Middleware = ({dispatch}) => (next) => (action) => {
     next(action);
@@ -16,13 +17,16 @@ const startGameSplit: Middleware = ({dispatch}) => (next) => (action) => {
             onError : getSessionError
         }
         dispatch(setStatus(GameStatus.pending))
+        dispatch(clearAllGuesses())
         dispatch(apiRequest(requestPayload))
     }
 }
 const endGameEnricher: Middleware = ({dispatch}) => (next) => (action) => {
     next(action)
-    if (action === setStatus(GameStatus.endedWithWin) || action === setStatus(GameStatus.endedWithLoss)) {
-        dispatch(openModal(ModalType.gameEnded))
+    if (action.type === setStatus.type) {
+        if (action.payload === GameStatus.endedWithLoss || action.payload === GameStatus.endedWithWin) {
+            dispatch(openModal(ModalType.gameEnded))
+        }
     }
 }
 const getSessionSuccessSplit: Middleware = ({dispatch}) => (next) => (action) => {
@@ -40,4 +44,4 @@ const getSessionErrorSplit: Middleware = ({dispatch}) => (next) => (action) => {
         dispatch(addToast(Toasts.CONNECTION_ERROR))
     }
 }
-export const gameMiddleware = [startGameSplit, getSessionErrorSplit, getSessionSuccessSplit]
+export const gameMiddleware = [startGameSplit, getSessionErrorSplit, getSessionSuccessSplit,endGameEnricher]

@@ -24,6 +24,10 @@ export const guessesSlice = createSlice({
         clearNonEvaluatedGuesses(state, action: Action) {
             state.nonEvaluatedGuesses = [];
         },
+        clearAllGuesses(state, action: Action) {
+            state.evaluatedGuesses = [];
+            state.nonEvaluatedGuesses = [];
+        }
     },
 });
 export default guessesSlice.reducer;

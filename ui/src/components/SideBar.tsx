@@ -1,8 +1,7 @@
 import {AiFillInfoCircle, CiLogin, CiLogout} from "react-icons/all";
 import {useAppDispatch, useAppSelector} from "../redux/hooks";
 import {logout} from "../redux/Features/user/userActions";
-import {ModalType} from "../redux/Features/overlays/overlaysSlice";
-import {openModal} from "../redux/Features/overlays/overlaysActions";
+import {helpClicked, logInClicked} from "../redux/Features/overlays/overlaysActions";
 
 
 const SideBar = () => {
@@ -29,7 +28,7 @@ const UserName = () => {
 const LoginButton = () => {
     const dispatch = useAppDispatch()
     const onLoginClick = () => {
-        dispatch(openModal(ModalType.login))
+        dispatch(logInClicked())
     }
     return (<>
             <button onClick={onLoginClick} className="sidebar-item">
@@ -39,7 +38,6 @@ const LoginButton = () => {
         </>
     )
 }
-
 const LogoutButton = () => {
     const dispatch = useAppDispatch()
     const onLogoutClick = () => {
@@ -54,10 +52,10 @@ const LogoutButton = () => {
         </>
     )
 }
-
 const HelpButton = () => {
+    const dispatch = useAppDispatch()
     const onHelpClick = () => {
-
+        dispatch(helpClicked())
     }
     return (
         <>
