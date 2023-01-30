@@ -2,8 +2,8 @@ import {Middleware} from "@reduxjs/toolkit";
 import {getSessionError, getSessionSuccess, setSessionId, setStatus, startGame} from "./gameActions";
 import {GameStatus} from "./gameSlice";
 import {apiRequest, ApiRequestPayload, HttpMethod} from "../api/apiActions";
-import {addToast} from "../overlays/overlaysActions";
-import {Toasts} from "../overlays/overlaysSlice";
+import {addToast, openModal} from "../overlays/overlaysActions";
+import {ModalType, Toasts} from "../overlays/overlaysSlice";
 import {ApiEndpoints} from "../api/apiEndpoints";
 
 const startGameSplit: Middleware = ({dispatch}) => (next) => (action) => {
@@ -21,8 +21,8 @@ const startGameSplit: Middleware = ({dispatch}) => (next) => (action) => {
 }
 const endGameEnricher: Middleware = ({dispatch}) => (next) => (action) => {
     next(action)
-    if (action === setStatus(GameStatus.ended)) {
-        alert('game ended')
+    if (action === setStatus(GameStatus.endedWithWin) || action === setStatus(GameStatus.endedWithLoss)) {
+        dispatch(openModal(ModalType.gameEnded))
     }
 }
 const getSessionSuccessSplit: Middleware = ({dispatch}) => (next) => (action) => {

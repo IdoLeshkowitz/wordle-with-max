@@ -30,3 +30,6 @@ const SignupModal = () => {
         </form>
     )
 }
+
+
+export default SignupModal

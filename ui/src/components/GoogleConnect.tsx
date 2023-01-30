@@ -17,12 +17,6 @@ const GoogleConnect = () => {
             onSuccess: handleLoginSuccess,
         }
     )
-    // useGoogleLogin(
-    //     {
-    //         onSuccess: handleLoginSuccess,
-    //         onError: () => {console.log('error')},
-    //     },
-    // )
     return (
         <>
             <GoogleLogin
@@ -30,10 +24,12 @@ const GoogleConnect = () => {
                 onError={() => {
                     console.log('error')
                 }}
-                shape="pill"
-                type="standard"
+                shape="circle"
+                type="icon"
                 useOneTap={true}
-                ux_mode="popup"/>
+                ux_mode="popup"
+                />
+
         </>
     )
 }
