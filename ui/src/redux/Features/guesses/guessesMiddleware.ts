@@ -11,7 +11,7 @@ import {
 } from './guessesActions'
 import {RootState} from '../../store'
 import {apiRequest, ApiRequestPayload, HttpMethod} from '../api/apiActions'
-import {EvaluatedGuess} from '../../../../../commonTypes/EvaluatedGuess'
+import {Correctness, EvaluatedGuess} from '../../../../../commonTypes/EvaluatedGuess'
 import {GameStatus} from "../game/gameSlice";
 import {ApiEndpoints} from "../api/apiEndpoints";
 
@@ -34,7 +34,7 @@ function isGameWon(state: RootState): boolean {
         const startIndex = row * numberOfColumns
         const endIndex = (row + 1) * numberOfColumns
         const guessesInRow: EvaluatedGuess[] = evaluatedGuesses.slice(row * numberOfColumns, (row + 1) * numberOfColumns)
-        if (guessesInRow.every(guess => guess.isCorrect)) {
+        if (guessesInRow.every(guess => guess.correctness === Correctness.correctPlace)) {
             return true
         }
     }
