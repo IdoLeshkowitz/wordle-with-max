@@ -7,13 +7,13 @@ import {loginWithGoogle} from "../redux/Features/user/userActions";
 export const Welcome = () => {
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
-    useGoogleOneTapLogin({
-        onSuccess: (response) => {
-            if (response.credential != null) {
-                dispatch(loginWithGoogle(response))
-            }
-        }
-    })
+    // useGoogleOneTapLogin({
+    //     onSuccess: (response) => {
+    //         if (response.credential != null) {
+    //             dispatch(loginWithGoogle(response))
+    //         }
+    //     }
+    // })
     return (
         <div
             className="welcom_container border-1 h-100 m-auto d-flex flex-column align-items-center justify-content-center">

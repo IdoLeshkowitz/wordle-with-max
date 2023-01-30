@@ -34,7 +34,11 @@ function isGameWon(state: RootState): boolean {
         const startIndex = row * numberOfColumns
         const endIndex = (row + 1) * numberOfColumns
         const guessesInRow: EvaluatedGuess[] = evaluatedGuesses.slice(row * numberOfColumns, (row + 1) * numberOfColumns)
-        if (guessesInRow.every(guess => guess.correctness === Correctness.correctPlace)) {
+        if (guessesInRow.length === 0) {
+            return false
+        }
+        const incorrectGuesses = guessesInRow.filter((guess) => guess.correctness !== Correctness.correctPlace)
+        if (incorrectGuesses.length === 0) {
             return true
         }
     }
@@ -77,16 +81,16 @@ const evaluateRowSplit: Middleware = ({dispatch, getState}) => (next) => (action
         const state: RootState = getState()
         const {nonEvaluatedGuesses: guessesToEvaluate} = state.guesses
         const requestPayload: ApiRequestPayload = {
-            method   : HttpMethod.POST,
-            url      : ApiEndpoints.EVALUATE,
+            method: HttpMethod.POST,
+            url: ApiEndpoints.EVALUATE,
             onSuccess: evaluationSuccess,
-            onError  : evaluationError,
-            headers  :
+            onError: evaluationError,
+            headers:
                 {
-                    'sessionid'   : state.game.sessionId,
+                    'sessionid': state.game.sessionId,
                     'Content-Type': 'application/json'
                 },
-            body     : guessesToEvaluate,
+            body: guessesToEvaluate,
         }
         dispatch(clearNonEvaluatedGuesses())
         dispatch(apiRequest(requestPayload))
@@ -105,12 +109,13 @@ const evaluationSuccessSplit: Middleware = ({
     if (action.type === evaluationSuccess.type) {
         //set evaluated guesses
         dispatch(addEvaluatedGuesses(action.payload))
+        if (isGameWon(getState())) {
+            dispatch(setStatus(GameStatus.endedWithWin))
+            return
+        }
         if (isGameEnded(getState())) {
-            //if game ended -> check if game won
-            if (isGameWon(getState())) {
-                return dispatch(setStatus(GameStatus.endedWithWin))
-            }
-            return dispatch(setStatus(GameStatus.endedWithLoss))
+            dispatch(setStatus(GameStatus.endedWithLoss))
+            return
         }
         dispatch(setStatus(GameStatus.inProgress))
     }

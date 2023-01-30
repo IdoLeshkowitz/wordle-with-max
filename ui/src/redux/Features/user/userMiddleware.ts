@@ -80,7 +80,7 @@ const loginSuccessSplit: Middleware = ({dispatch, getState}) => next => (action:
         const {token} = action.payload;
         try {
             dispatch(setCurrentUser(jwtDecode(token) as User))
-            dispatch(restoreStatus())
+            // dispatch(restoreStatus())
             dispatch(closeModal())
             localStorage.setItem("token", token);
         } catch (e) {

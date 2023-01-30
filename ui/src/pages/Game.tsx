@@ -16,7 +16,6 @@ const Game = () => {
     const {numberOfRows, numberOfColumns} = state.game.settings
     return (
         <div className="game_page">
-            {/*<Toasts/>*/}
             <div className="game_page-main">
                 <Board
                     guesses={[...evaluatedGuesses, ...nonEvaluatedGuesses]}
