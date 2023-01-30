@@ -1,7 +1,8 @@
 import { Action, createSlice, PayloadAction } from '@reduxjs/toolkit';
 export enum GameStatus {
-    in_progress = 'IN_PROGRESS',
-    ended = 'ENDED',
+    inProgress = 'IN_PROGRESS',
+    endedWithLoss = 'ENDED_WITH_LOSS',
+    endedWithWin = 'ENDED_WITH_WIN',
     pending = 'PENDING',
     error = 'ERROR',
 }
@@ -19,7 +20,7 @@ export const initialState: GameState = {
         numberOfRows   : 5,
         numberOfColumns: 5,
     },
-    status: GameStatus.in_progress,
+    status: GameStatus.inProgress,
     sessionId: '0',
 };
 export const gameSlice = createSlice({

@@ -19,16 +19,20 @@ const startGameSplit: Middleware = ({dispatch}) => (next) => (action) => {
         dispatch(apiRequest(requestPayload))
     }
 }
-
+const endGameEnricher: Middleware = ({dispatch}) => (next) => (action) => {
+    next(action)
+    if (action === setStatus(GameStatus.ended)) {
+        alert('game ended')
+    }
+}
 const getSessionSuccessSplit: Middleware = ({dispatch}) => (next) => (action) => {
     next(action);
     if (action.type === getSessionSuccess.type) {
         const {sessionId} = action.payload
         dispatch(setSessionId(sessionId))
-        dispatch(setStatus(GameStatus.in_progress))
+        dispatch(setStatus(GameStatus.inProgress))
     }
 }
-
 const getSessionErrorSplit: Middleware = ({dispatch}) => (next) => (action) => {
     next(action);
     if (action.type === getSessionError.type) {
