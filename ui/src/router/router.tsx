@@ -1,6 +1,6 @@
 import {createBrowserRouter} from 'react-router-dom'
 import Game from '../Pages/Game'
-import Modals from '../components/Modals';
+import Modal from '../components/Modal';
 import {Welcome} from "../Pages/Welcome";
 
 export const router = createBrowserRouter([

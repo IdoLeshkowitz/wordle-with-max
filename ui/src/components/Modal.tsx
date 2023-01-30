@@ -1,10 +1,10 @@
 import {useAppDispatch, useAppSelector} from "../redux/hooks";
 import React, {MouseEventHandler} from "react";
 import {ModalType} from "../redux/Features/overlays/overlaysSlice";
-import LoginModal from "./LoginModal";
+import LoginModal from "./modals/LoginModal";
 import {closeModal} from "../redux/Features/overlays/overlaysActions";
 
-const Modals = () => {
+const Modal = () => {
     const dispatch = useAppDispatch()
     const {activeModal} = useAppSelector(state => state.overlays)
     if (!activeModal) {
@@ -21,4 +21,4 @@ const Modals = () => {
     )
 }
 
-export default Modals
+export default Modal

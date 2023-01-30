@@ -1,8 +1,8 @@
-import {useAppDispatch} from "../redux/hooks";
+import {useAppDispatch} from "../../redux/hooks";
 import React, {FormEvent, FormEventHandler} from "react";
-import GoogleConnect from "./GoogleConnect";
-import {User} from "../../../commonTypes/User";
-import {login} from "../redux/Features/user/userActions";
+import GoogleConnect from "../GoogleConnect";
+import {User} from "../../../../commonTypes/User";
+import {login} from "../../redux/Features/user/userActions";
 
 const LoginModal = () => {
     //no need for the onsubmit event, it's part of the form component

@@ -4,7 +4,7 @@ import {router} from './router/router';
 import React, {useEffect} from 'react';
 import './styles/index.scss';
 import {GoogleOAuthProvider, useGoogleOneTapLogin} from "@react-oauth/google";
-import Modals from "./components/Modals";
+import Modal from "./components/Modal";
 import {useAppDispatch} from "./redux/hooks";
 import jwtDecode from "jwt-decode";
 import {User} from "../../commonTypes/User";
@@ -33,7 +33,7 @@ function App() {
         })
     }, [])
     return (<GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
-        <Modals/>
+        <Modal/>
         <SideBar/>
         <RouterProvider router={router}/>
     </GoogleOAuthProvider>);

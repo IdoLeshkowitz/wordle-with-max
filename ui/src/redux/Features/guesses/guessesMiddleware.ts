@@ -20,9 +20,25 @@ import {ApiEndpoints} from "../api/apiEndpoints";
 *******************************************************************************************************************
  */
 function isGameEnded(state: RootState): boolean {
+    //todo : unit test
     const {numberOfColumns, numberOfRows} = state.game.settings
     const completedRows = state.guesses.evaluatedGuesses.length / numberOfColumns
     return completedRows === numberOfRows
+}
+
+function isGameWon(state: RootState): boolean {
+    //todo : unit test
+    const {evaluatedGuesses} = state.guesses
+    const {numberOfColumns, numberOfRows} = state.game.settings
+    for (let row = 0; row < numberOfRows; row++) {
+        const startIndex = row * numberOfColumns
+        const endIndex = (row + 1) * numberOfColumns
+        const guessesInRow: EvaluatedGuess[] = evaluatedGuesses.slice(row * numberOfColumns, (row + 1) * numberOfColumns)
+        if (guessesInRow.every(guess => guess.isCorrect)) {
+            return true
+        }
+    }
+    return false
 }
 
 export function isRowEnded(state: RootState): boolean {
@@ -73,8 +89,8 @@ const evaluateRowSplit: Middleware = ({dispatch, getState}) => (next) => (action
             body     : guessesToEvaluate,
         }
         dispatch(clearNonEvaluatedGuesses())
-        dispatch(setStatus(GameStatus.pending))
         dispatch(apiRequest(requestPayload))
+        dispatch(setStatus(GameStatus.pending))
     }
 }
 
@@ -89,7 +105,14 @@ const evaluationSuccessSplit: Middleware = ({
     if (action.type === evaluationSuccess.type) {
         //set evaluated guesses
         dispatch(addEvaluatedGuesses(action.payload))
-        dispatch(setStatus(GameStatus.in_progress))
+        if (isGameEnded(getState())) {
+            //if game ended -> check if game won
+            if (isGameWon(getState())) {
+                return dispatch(setStatus(GameStatus.endedWithWin))
+            }
+            return dispatch(setStatus(GameStatus.endedWithLoss))
+        }
+        dispatch(setStatus(GameStatus.inProgress))
     }
 }
 
