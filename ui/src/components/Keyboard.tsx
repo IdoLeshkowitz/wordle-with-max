@@ -3,6 +3,21 @@ import {AiOutlineEnter} from "react-icons/ai";
 import {BsReverseBackspaceReverse} from "react-icons/all";
 import {useAppDispatch} from "../redux/hooks";
 import {keyboardClicked} from "../redux/Features/keyboard/keyboardActions";
+import { EvaluatedGuess } from "../../../commonTypes/EvaluatedGuess";
+import { store } from "../redux/store";
+
+const keyColor = (eGuessArr: EvaluatedGuess[], letter: string) => {
+    console.log('looking');
+    for (let eGuess of eGuessArr){
+        if (eGuess.letter === letter && eGuess.correctness) {
+            switch (eGuess.correctness) {
+                case 'correctPlace':
+                    return 'correctPlace';
+                case 'incorrectPlace':
+                    return 'incorrectPlace';
+                case 'notInTargetWord':
+                    return 'notInTargetWord';}}}
+}
 
 interface VirtualKeyboardButton {
     buttonKey: string,
@@ -50,7 +65,7 @@ const Key = (props: { letter: string, buttonSize: string, displayed?: ReactEleme
     const {letter, buttonSize, displayed} = props;
     return (
         <button
-            className={`keyboard-btn`}
+            className={`keyboard-btn ${keyColor(store.getState().guesses.evaluatedGuesses, letter)}`}
             key={letter}
             onClick={(()=>dispatch(keyboardClicked(letter)))}
         >
