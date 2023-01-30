@@ -8,9 +8,15 @@ import {
 import {GoogleCredentialResponse} from "@react-oauth/google";
 import {userSlice} from "./userSlice";
 
-interface LoginPayload {
+export interface LoginPayload {
     password: string,
     email: string
+}
+export interface SignUpPayload {
+    password: string,
+    email: string,
+    firstName: string
+    lastName : string
 }
 export const {setCurrentUser, clearCurrentUser} = userSlice.actions;
 export const login : ActionCreatorWithPayload<LoginPayload>= createAction<LoginPayload>("user/login");
@@ -18,3 +24,5 @@ export const loginWithGoogle : ActionCreatorWithPayload<GoogleCredentialResponse
 export const logout = createAction("user/logout");
 export const loginSuccess = createAction<string>("user/loginSuccess");
 export const loginError = createAction("user/loginError");
+
+export const signUp: ActionCreatorWithPayload<SignUpPayload> = createAction<SignUpPayload>("user/signUp");
