@@ -12,6 +12,7 @@ const Board = (props: any) => {
                 key={index}
                 guess={guesses[index] || emptyGuess}
                 isFocused={index === guesses.length }
+                index={index}
             />
         })}
     </div>)
