@@ -97,6 +97,10 @@ button {border: none;cursor: pointer;}
   }
 }
 
+.welcome_container {
+  &-h1{font-size: xx-large;}
+}
+
 .hidden {display: none;}
 
 //---------!TOASTS!---------//
