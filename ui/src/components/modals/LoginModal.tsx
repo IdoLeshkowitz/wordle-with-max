@@ -2,7 +2,7 @@ import {useAppDispatch} from "../../redux/hooks";
 import React, {FormEvent, FormEventHandler} from "react";
 import GoogleConnect from "../GoogleConnect";
 import {User} from "../../../../commonTypes/User";
-import {login} from "../../redux/Features/user/userActions";
+import {login, LoginPayload, SignUpPayload} from "../../redux/Features/user/userActions";
 
 const LoginModal = () => {
     //no need for the onsubmit event, it's part of the form component
@@ -12,7 +12,8 @@ const LoginModal = () => {
         const form = event.currentTarget as HTMLFormElement;
         const data = new FormData(form);
         const {email, password}  = Object.fromEntries(data.entries());
-        dispatch(login({email, password}))
+        const loginPayload : LoginPayload = {email: email.toString(), password: password.toString()}
+        dispatch(login(loginPayload))
     }
 
 
