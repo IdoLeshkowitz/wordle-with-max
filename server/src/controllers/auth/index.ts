@@ -21,7 +21,6 @@ async function login(email, password) {
     }
     return user;
 }
-
 async function googleLogin(token) {
     try {
         const ticket = await client.verifyIdToken({idToken: token, audience: GOOGLE_CLIENT_ID});
@@ -30,17 +29,14 @@ async function googleLogin(token) {
         throw new Error('Invalid token')
     }
 }
-
-
 const authRouter = Router();
 authRouter.post('/login', bodyParser.json(), async (req, res) => {
     const {email, password} = req.body;
-    console.log(email, password)
     try {
         const user = await login(email, password)
         res.send({token: createJWT(user)})
     } catch (e) {
-        res.send({error: e.message});
+        res.status(401).send({message: e.message});
     }
 })
 authRouter.post('/loginwithgoogle', bodyParser.json(), async (req, res) => {

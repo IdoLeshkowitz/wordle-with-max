@@ -19,6 +19,7 @@ const apiMiddleware: Middleware = ({
         }).then(async(response) => {
             const data = await response.json()
             if (response.status >= 200 && response.status < 300) {
+                console.log(response.status)
                 dispatch(onSuccess(data))
             } else {
                 dispatch({type: onError.toString(), payload: data})

@@ -19,7 +19,7 @@ export const keyboardClickFlow: Middleware = ({ getState, dispatch }: Middleware
 
         /*******************    CASE I: KEY IS LETTER    *******************/
         if (isLetter(enteredKey)) {
-            if (state.game.status === 'IN_PROGRESS') {
+            if (!state.overlays.activeModal) {
                 dispatch(incomingGuess(enteredKey))
             }
         }

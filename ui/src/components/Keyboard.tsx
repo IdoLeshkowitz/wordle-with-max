@@ -7,7 +7,6 @@ import { EvaluatedGuess } from "../../../commonTypes/EvaluatedGuess";
 import { store } from "../redux/store";
 
 const keyColor = (eGuessArr: EvaluatedGuess[], letter: string) => {
-    console.log('looking');
     for (let eGuess of eGuessArr){
         if (eGuess.letter === letter && eGuess.correctness) {
             switch (eGuess.correctness) {

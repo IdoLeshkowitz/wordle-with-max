@@ -1,9 +1,11 @@
 import {Middleware} from "@reduxjs/toolkit";
 import {restoreStatus, setStatus} from "../game/gameActions";
-import {closeModal, logInClicked, openModal} from "./overlaysActions";
+import {closeModal, helpClicked, logInClicked, openModal, signUpClicked} from "./overlaysActions";
 import {ModalType} from "./overlaysSlice";
 import {GameStatus} from "../game/gameSlice";
 import {RootState} from "../../store";
+import {clearError} from "../errors/errorsActions";
+import {ErrorType} from "../../../../../commonTypes/Errors";
 
 const closeModalEnricher: Middleware = ({dispatch, getState}) => next => action => {
     if (action.type === closeModal.type) {
@@ -16,19 +18,24 @@ const closeModalEnricher: Middleware = ({dispatch, getState}) => next => action 
     }
     next(action);
 }
-const signInClickedEnricher: Middleware = ({dispatch}) => next => action => {
+const loginClickedEnricher: Middleware = ({dispatch}) => next => action => {
     next(action);
     if (action.type === logInClicked.type) {
-        // dispatch(setStatus(GameStatus.pending))
+        dispatch(clearError(ErrorType.LOGIN_ERROR))
         dispatch(openModal(ModalType.login))
+    }
+}
+const signupClickedEnricher: Middleware = ({dispatch}) => next => action => {
+    next(action);
+    if (action.type === signUpClicked.type) {
+        dispatch(clearError(ErrorType.SIGNUP_ERROR))
+        dispatch(openModal(ModalType.signup))
     }
 }
 const helpClickedEnricher: Middleware = ({dispatch}) => next => action => {
     next(action);
-    if (action.type === logInClicked.type) {
-        dispatch(setStatus(GameStatus.pending))
+    if (action.type === helpClicked.type) {
         dispatch(openModal(ModalType.help))
     }
 }
-
-export const overlaysMiddleware = [closeModalEnricher, signInClickedEnricher, helpClickedEnricher]
+export const overlaysMiddleware = [closeModalEnricher, loginClickedEnricher, helpClickedEnricher,signupClickedEnricher]

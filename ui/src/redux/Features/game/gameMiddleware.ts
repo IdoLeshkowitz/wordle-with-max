@@ -16,9 +16,9 @@ const startGameSplit: Middleware = ({dispatch}) => (next) => (action) => {
             onSuccess : getSessionSuccess,
             onError : getSessionError
         }
-        dispatch(setStatus(GameStatus.pending))
-        dispatch(clearAllGuesses())
         dispatch(apiRequest(requestPayload))
+
+        dispatch(clearAllGuesses())
     }
 }
 const endGameEnricher: Middleware = ({dispatch}) => (next) => (action) => {
