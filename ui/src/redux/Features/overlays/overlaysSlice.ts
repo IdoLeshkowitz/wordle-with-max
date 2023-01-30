@@ -3,6 +3,7 @@ export enum ModalType {
     login = 'login',
     help = 'help',
     signup = 'signup',
+    gameEnded = 'gameEnded',
 }
 export enum Toasts{
     CONNECTION_ERROR = 'unable to connect to the server',
