@@ -80,6 +80,7 @@ const loginSuccessSplit: Middleware = ({dispatch, getState}) => next => (action:
         const {token} = action.payload;
         try {
             dispatch(setCurrentUser(jwtDecode(token) as User))
+            dispatch(restoreStatus())
             dispatch(closeModal())
             localStorage.setItem("token", token);
         } catch (e) {
@@ -96,13 +97,6 @@ const loginErrorSplit: Middleware = ({dispatch, getState}) => next => (action: P
     if (action.type === loginError.type) {
         dispatch(restoreStatus())
         dispatch(addError(ErrorType.LOGIN_ERROR))
-    }
-}
-const logoutSplit: Middleware = ({dispatch, getState}) => next => (action: PayloadAction<string>) => {
-    next(action);
-    if (action.type === logout.type) {
-        dispatch(clearCurrentUser())
-        localStorage.removeItem("token");
     }
 }
 const signupSplit: Middleware = ({dispatch, getState}) => next => (action: PayloadAction<SignUpPayload>) => {
@@ -127,6 +121,13 @@ const signUpErrorSplit: Middleware = ({dispatch, getState}) => next => (action: 
     if (action.type === signUpError.type) {
         dispatch(restoreStatus())
         dispatch(addError(ErrorType.SIGNUP_ERROR))
+    }
+}
+const logoutSplit: Middleware = ({dispatch, getState}) => next => (action: PayloadAction<string>) => {
+    next(action);
+    if (action.type === logout.type) {
+        dispatch(clearCurrentUser())
+        localStorage.removeItem("token");
     }
 }
 export default [loginWithGoogleSplit, loginSuccessSplit, loginErrorSplit, logoutSplit, loginSplit, signupSplit, signUpErrorSplit]

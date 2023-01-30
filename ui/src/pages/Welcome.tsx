@@ -1,10 +1,19 @@
 import {useNavigate} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "../redux/hooks";
 import {logInClicked, signUpClicked} from "../redux/Features/overlays/overlaysActions";
+import {useGoogleOneTapLogin} from "@react-oauth/google";
+import {loginWithGoogle} from "../redux/Features/user/userActions";
 
 export const Welcome = () => {
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
+    useGoogleOneTapLogin({
+        onSuccess: (response) => {
+            if (response.credential != null) {
+                dispatch(loginWithGoogle(response))
+            }
+        }
+    })
     return (
         <div
             className="welcom_container border-1 h-100 m-auto d-flex flex-column align-items-center justify-content-center">

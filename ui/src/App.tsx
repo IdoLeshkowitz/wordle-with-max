@@ -8,13 +8,13 @@ import Modal from "./components/Modal";
 import {useAppDispatch} from "./redux/hooks";
 import jwtDecode from "jwt-decode";
 import {User} from "../../commonTypes/User";
-import {setCurrentUser} from "./redux/Features/user/userActions";
+import {loginWithGoogle, setCurrentUser} from "./redux/Features/user/userActions";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import SideBar from "./components/SideBar";
 import Toasts from "./components/Toasts";
 import {keyboardClicked} from "./redux/Features/keyboard/keyboardActions";
 
-const GOOGLE_CLIENT_ID = '1053600571463-0bq8ik99to3hlq78e8ao7rdkcasmo3qn.apps.googleusercontent.com';
+export const GOOGLE_CLIENT_ID = '1053600571463-0bq8ik99to3hlq78e8ao7rdkcasmo3qn.apps.googleusercontent.com';
 
 function App() {
     const dispatch = useAppDispatch();
