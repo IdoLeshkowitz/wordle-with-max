@@ -27,7 +27,9 @@ function App() {
     }, [])
     useEffect(() => {
         window.addEventListener('keyup', (e) => {
+            if (e.key){
             dispatch(keyboardClicked(e.key.toUpperCase()))
+            }
         })
     }, [])
     return (<GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>

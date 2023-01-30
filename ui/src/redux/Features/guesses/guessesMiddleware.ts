@@ -1,6 +1,7 @@
 import {Middleware, PayloadAction} from '@reduxjs/toolkit'
 import {setStatus} from '../game/gameActions'
 import {
+    addEvaluatedGuesses,
     addNonEvaluatedGuess,
     clearNonEvaluatedGuesses,
     evaluateRow,
@@ -9,9 +10,10 @@ import {
     incomingGuess
 } from './guessesActions'
 import {RootState} from '../../store'
-import {apiRequest} from '../api/apiActions'
+import {apiRequest, ApiRequestPayload, HttpMethod} from '../api/apiActions'
 import {EvaluatedGuess} from '../../../../../commonTypes/EvaluatedGuess'
 import {GameStatus} from "../game/gameSlice";
+import {ApiEndpoints} from "../api/apiEndpoints";
 
 /*
                                                  HELPER FUNCTIONS
@@ -62,30 +64,31 @@ const evaluateRowSplit: Middleware = ({dispatch, getState}) => (next) => (action
         const state: RootState = getState()
         const {sessionId} = state.game
         const {nonEvaluatedGuesses: guessesToEvaluate} = state.guesses
+        const requestPayload: ApiRequestPayload = {
+            method   : HttpMethod.POST,
+            url      : ApiEndpoints.EVALUATE,
+            onSuccess: evaluationSuccess,
+            onError  : evaluationError,
+            headers  :
+                {
+                    'sessionid': sessionId,
+                    'Content-Type': 'application/json'
+                },
+        }
         dispatch(clearNonEvaluatedGuesses())
         dispatch(setStatus(GameStatus.pending))
-        dispatch(apiRequest({
-                                method   : 'POST',
-                                url      : `http://localhost:3000/evaluate`,
-                                onSuccess: evaluationSuccess.type,
-                                onError  : evaluationError.type,
-                                body     : {guesses: guessesToEvaluate},
-                                headers  : {'sessionid': sessionId},
-                            }))
+        dispatch(apiRequest(requestPayload))
     }
 }
 
 /*
  this middleware intercepts evaluationSuccess event action and dispatches appropriate actions
  */
-const evaluationSuccessSplit: Middleware = ({
-                                                dispatch,
-                                                getState
-                                            }) => (next) => (action: PayloadAction<EvaluatedGuess[]>) => {
+const evaluationSuccessSplit: Middleware = ({dispatch, getState}) => (next) => (action: PayloadAction<EvaluatedGuess[]>) => {
     next(action)
     if (action.type === evaluationSuccess.type) {
         //set evaluated guesses
-        console.log(action.payload)
+        dispatch(addEvaluatedGuesses(action.payload))
     }
 }
 

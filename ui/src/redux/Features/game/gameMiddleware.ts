@@ -1,20 +1,22 @@
 import {Middleware} from "@reduxjs/toolkit";
 import {getSessionError, getSessionSuccess, setSessionId, setStatus, startGame} from "./gameActions";
 import {GameStatus} from "./gameSlice";
-import {apiRequest} from "../api/apiActions";
+import {apiRequest, ApiRequestPayload, HttpMethod} from "../api/apiActions";
 import {addToast} from "../overlays/overlaysActions";
 import {Toasts} from "../overlays/overlaysSlice";
+import {ApiEndpoints} from "../api/apiEndpoints";
 
 const startGameSplit: Middleware = ({dispatch}) => (next) => (action) => {
     next(action);
     if (action.type === startGame.type) {
+        const requestPayload :ApiRequestPayload = {
+            method : HttpMethod.POST,
+            url : ApiEndpoints.SESSION,
+            onSuccess : getSessionSuccess,
+            onError : getSessionError
+        }
         dispatch(setStatus(GameStatus.pending))
-        dispatch(apiRequest({
-                                url      : 'http://localhost:3000/session',
-                                method   : 'POST',
-                                onSuccess: getSessionSuccess.type,
-                                onError  : getSessionError.type
-                            }))
+        dispatch(apiRequest(requestPayload))
     }
 }
 

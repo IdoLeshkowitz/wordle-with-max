@@ -1,3 +1,3 @@
-import { createAction } from '@reduxjs/toolkit';
+import {ActionCreatorWithPayload, createAction} from '@reduxjs/toolkit';
 
-export const keyboardClicked = createAction<string>('keyboard/keyboardClicked');
+export const keyboardClicked :ActionCreatorWithPayload<string>= createAction<string>('keyboard/keyboardClicked');

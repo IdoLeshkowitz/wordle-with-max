@@ -1,0 +1,5 @@
+export enum ErrorType {
+    LOGIN_ERROR = 'LOGIN_ERROR',
+    EVALUATION_ERROR = 'EVALUATION_ERROR',
+    SESSION_ERROR = 'SESSION_ERROR',
+}

@@ -1,7 +1,6 @@
 import {AiFillInfoCircle, CiLogin, CiLogout} from "react-icons/all";
 import {useAppDispatch, useAppSelector} from "../redux/hooks";
-import {useGoogleOneTapLogin} from "@react-oauth/google";
-import {loginWithGoogle, logout} from "../redux/Features/user/userActions";
+import {logout} from "../redux/Features/user/userActions";
 import {ModalType} from "../redux/Features/overlays/overlaysSlice";
 import {openModal} from "../redux/Features/overlays/overlaysActions";
 
@@ -13,10 +12,19 @@ const SideBar = () => {
         return null
     }
     return (<div className="sidebar">
-        {/*{currentUser === null ? <LoginButton/> : <LogoutButton/>}*/}
-        <LoginButton/>
+        <UserName/>
+        {currentUser === null ? <LoginButton/> : <LogoutButton/>}
         <HelpButton/>
     </div>)
+}
+const UserName = () => {
+    const currentUser = useAppSelector(state => state.user.currentUser)
+    if (currentUser === null) {
+        return null
+    }
+    return (
+        <label>hello <br/>{currentUser.firstName}</label>
+    )
 }
 const LoginButton = () => {
     const dispatch = useAppDispatch()

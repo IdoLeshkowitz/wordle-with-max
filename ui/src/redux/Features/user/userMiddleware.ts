@@ -9,9 +9,11 @@ import {
     setCurrentUser
 } from "./userActions";
 import {GoogleCredentialResponse} from "@react-oauth/google";
-import {apiRequest} from "../api/apiActions";
+import {apiRequest, ApiRequestPayload, HttpMethod} from "../api/apiActions";
 import jwtDecode from "jwt-decode";
 import {User} from "../../../../../commonTypes/User";
+import {ApiEndpoints} from "../api/apiEndpoints";
+import {closeModal} from "../overlays/overlaysActions";
 
 const loginWithGoogleSplit: Middleware = ({
                                               dispatch,
@@ -20,43 +22,53 @@ const loginWithGoogleSplit: Middleware = ({
     next(action);
     if (action.type === loginWithGoogle.type) {
         const {credential} = action.payload;
-        dispatch(apiRequest({
-                                url      : "http://localhost:3000/auth/loginwithgoogle",
-                                method   : "POST",
-                                headers  : {'Authorization': credential},
-                                onSuccess: "user/loginSuccess",
-                                onError  : "user/loginError"
-                            }));
+        if (!credential) {
+            dispatch(loginError())
+        }
+        const requestPayload: ApiRequestPayload = {
+            method   : HttpMethod.POST,
+            url      : ApiEndpoints.LOGIN_WITH_GOOGLE,
+            headers  : {'Authorization': credential as string},
+            onError  : loginError,
+            onSuccess: loginSuccess,
+        }
+        dispatch(apiRequest(requestPayload))
     }
 }
 
-const loginSuccessSplit: Middleware = ({dispatch, getState}) => next => (action: PayloadAction<any>) => {
+const loginSuccessSplit: Middleware = ({dispatch, getState}) => next => (action: PayloadAction<{ token: string }>) => {
     next(action);
     if (action.type === loginSuccess.type) {
-        const token = action.payload.token;
-        const {email, firstName, lastName} = jwtDecode(token) as User;
-        const user: User = {email, firstName, lastName};
-        dispatch(setCurrentUser(user))
-        localStorage.setItem("token", token);
+        const {token} = action.payload;
+        try {
+            dispatch(setCurrentUser(jwtDecode(token) as User))
+            dispatch(closeModal())
+            localStorage.setItem("token", token);
+        } catch (e) {
+            dispatch(loginError())
+        }
     }
 }
-
-const loginSplit: Middleware = ({dispatch, getState}) => next => (action: PayloadAction<string>) => {
+const loginSplit: Middleware = ({dispatch, getState}) => next => (action) => {
     next(action)
-    if (action.type === login.type){
-        dispatch(apiRequest({
-            url: "http://localhost:3000/auth/login",
-            method: "POST",
-            body: action.payload,
-            onSuccess: "user/loginSuccess",
-            onError: "user/loginError"
-        }))
+    if (action.type === login.type) {
+        const requestPayload: ApiRequestPayload = {
+            method   : HttpMethod.POST,
+            url      : ApiEndpoints.LOGIN,
+            body     : action.payload,
+            onError  : loginError,
+            onSuccess: loginSuccess,
+            headers  : {
+                'Content-Type': 'application/json'
+            }
+        }
+        dispatch(apiRequest(requestPayload))
     }
 }
 const loginErrorSplit: Middleware = ({dispatch, getState}) => next => (action: PayloadAction<string>) => {
     next(action);
     if (action.type === loginError.type) {
-        console.log(action.payload)
+
     }
 }
 const logoutSplit: Middleware = ({dispatch, getState}) => next => (action: PayloadAction<string>) => {
@@ -68,4 +80,4 @@ const logoutSplit: Middleware = ({dispatch, getState}) => next => (action: Paylo
 }
 
 
-export default [loginWithGoogleSplit, loginSuccessSplit, loginErrorSplit, logoutSplit,loginSplit];
+export default [loginWithGoogleSplit, loginSuccessSplit, loginErrorSplit, logoutSplit, loginSplit];
