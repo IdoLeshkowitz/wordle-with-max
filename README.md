@@ -1,4 +1,4 @@
-# Welcome to my wordle 
+# Welcome to our wordle 
 ## app initialization
     navigate to Server folder and run 
 > npm start
