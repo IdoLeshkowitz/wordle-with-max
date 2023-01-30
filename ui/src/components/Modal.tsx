@@ -3,6 +3,7 @@ import React, {MouseEventHandler} from "react";
 import {ModalType} from "../redux/Features/overlays/overlaysSlice";
 import LoginModal from "./modals/LoginModal";
 import {closeModal} from "../redux/Features/overlays/overlaysActions";
+import SignupModal from "./modals/SignupModal";
 
 const Modal = () => {
     const dispatch = useAppDispatch()
@@ -17,6 +18,7 @@ const Modal = () => {
         <div className="modal_window" onClick={onBlur}>
             {activeModal === ModalType.login && <LoginModal/>}
             {activeModal === ModalType.help && <></>}
+            {activeModal === ModalType.signup && <SignupModal></SignupModal>}
         </div>
     )
 }

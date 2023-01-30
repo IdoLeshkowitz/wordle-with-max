@@ -23,6 +23,7 @@ const endGameEnricher: Middleware = ({dispatch}) => (next) => (action) => {
     next(action)
     if (action === setStatus(GameStatus.ended)) {
         alert('game ended')
+
     }
 }
 const getSessionSuccessSplit: Middleware = ({dispatch}) => (next) => (action) => {
