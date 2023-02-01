@@ -9,7 +9,8 @@ export function getUserValidators() {
     const firstNameValidation = body('firstName').isString().isLength({min: 2, max: 20})
     const lastNameValidation = body('lastName').isString().isLength({min: 2, max: 20})
     const emailValidation = body('email').isEmail()
-    return [firstNameValidation, lastNameValidation, emailValidation]
+    const passwordValidation = body('password').isString().isLength({min: 8})
+    return [firstNameValidation, lastNameValidation, emailValidation,passwordValidation]
 }
 const protect = (req, res, next) => {
     const errors = validationResult(req)

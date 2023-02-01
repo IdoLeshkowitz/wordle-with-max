@@ -17,6 +17,7 @@ export class SessionService {
         sessionsData.push(session)
         return session
     }
+
     async one(sessionId: string): Promise<Session> {
         const session = sessionsData.find(session => session.id === sessionId)
         if (!session) {
@@ -24,11 +25,23 @@ export class SessionService {
         }
         return session
     }
+
+    async delete(sessionId: string): Promise<Session> {
+        const session = sessionsData.find(session => session.id === sessionId)
+        if (!session) {
+            throw new Error('Session not found')
+        }
+        sessionsData.splice(sessionsData.indexOf(session), 1)
+        return session
+    }
+
     async all(): Promise<Session[]> {
         return sessionsData
     }
 }
+
 let sessionService: SessionService;
+
 export function getSessionService(): SessionService {
     if (!sessionService) {
         sessionService = new SessionService()

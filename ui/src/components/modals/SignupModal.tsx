@@ -70,9 +70,7 @@ const SignupModal = () => {
                 {errors['password'] &&
                     <label>🙀Password must be 8 characters, with at least one letter and one number</label>}
                 <input className={'form-control mt-2'} type={'text'}
-                       placeholder={'Enter password'} {...register("password", {
-                    pattern: /^[A-Za-z]+$/i,
-                    required: true
+                       placeholder={'Enter password'} {...register("password", {pattern: PASSWORD_REGEX, required: true
                 })}/>
             </div>
             <div className="form-group d-sm-grid">

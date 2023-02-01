@@ -23,7 +23,7 @@ function isGameEnded(state: RootState): boolean {
     //todo : unit test
     const {numberOfColumns, numberOfRows} = state.game.settings
     const completedRows = state.guesses.evaluatedGuesses.length / numberOfColumns
-    return completedRows === numberOfRows
+    return completedRows === numberOfRows - 1
 }
 
 function isGameWon(state: RootState): boolean {
@@ -101,10 +101,7 @@ const evaluateRowSplit: Middleware = ({dispatch, getState}) => (next) => (action
 /*
  this middleware intercepts evaluationSuccess event action and dispatches appropriate actions
  */
-const evaluationSuccessSplit: Middleware = ({
-                                                dispatch,
-                                                getState
-                                            }) => (next) => (action: PayloadAction<EvaluatedGuess[]>) => {
+const evaluationSuccessSplit: Middleware = ({dispatch, getState}) => (next) => (action: PayloadAction<EvaluatedGuess[]>) => {
     next(action)
     if (action.type === evaluationSuccess.type) {
         //set evaluated guesses
@@ -114,6 +111,7 @@ const evaluationSuccessSplit: Middleware = ({
             return
         }
         if (isGameEnded(getState())) {
+            console.log('game ended')
             dispatch(setStatus(GameStatus.endedWithLoss))
             return
         }
